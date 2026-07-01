@@ -1,14 +1,10 @@
-[![Netlify Status](https://api.netlify.com/api/v1/badges/bc68f9f5-1aa3-4dc4-a1ac-2ff2682d59c2/deploy-status)](https://app.netlify.com/sites/dice-game-100/deploys)
-
 ## Création d'un petit jeu sur navigateur web à l'aide du DOM.
 
 Fork de [sandix34/Dice-Game](https://github.com/sandix34/Dice-Game), avec une refonte visuelle rétro-moderne, des corrections de bugs et quelques améliorations d'accessibilité et de sécurité.
 
 ---
 
-![dice-game](https://user-images.githubusercontent.com/44428775/111074974-ed630980-84e5-11eb-8253-fa3f90d9e88c.gif)
-
-*(aperçu de l'interface d'origine — le thème visuel a depuis été repensé, voir la section "Moyens utilisés" ci-dessous.)*
+![pig-demo](images/pig-demo.gif)
 
 ---
 
