@@ -3,9 +3,12 @@ let randomNumber = 0;
 let roundScore = 0;
 let activePlayer = 0;
 let scores = [0, 0];
+let gameOver = false;
 
 // Get the #dice element
 const dice = document.querySelector("#dice");
+// Get the message element
+const message = document.querySelector("#message");
 // Get roll button
 const roll = document.querySelector("#reload");
 // Get hold button
@@ -18,11 +21,15 @@ const player1 = document.querySelector(".player-1");
 
 // Roll the dice and display the round score
 const rollDice = function () {
+  if (gameOver) return;
+
+  message.textContent = "";
+
   // Create a random number
   randomNumber = Math.floor(Math.random() * 6) + 1;
 
   // Display dice
-  dice.innerHTML = `<img class="dice" src="./images/dice/dice-${randomNumber}.png" alt="dice ${randomNumber}">`;
+  dice.innerHTML = `<img class="dice" src="./images/dice/dice-${randomNumber}.svg" alt="dice ${randomNumber}">`;
 
   // Round score
   if (randomNumber !== 1) {
@@ -30,6 +37,7 @@ const rollDice = function () {
     // Display round score
     document.querySelector(`#current-${activePlayer}`).textContent = roundScore;
   } else {
+    message.textContent = "Groink ! Tour perdu.";
     changePlayer();
   }
 };
@@ -45,6 +53,8 @@ const changePlayer = function () {
 
 // Hol the score
 const holdScore = function () {
+  if (gameOver) return;
+
   // add current score
   scores[activePlayer] += roundScore;
   // display score
@@ -52,9 +62,17 @@ const holdScore = function () {
 
   // check player score
   if (scores[activePlayer] >= 100) {
-    document.querySelector(`.playerName-${activePlayer}`).classList.add("winner-player");
-    document.querySelector(`.playerName-${activePlayer}`).innerHTML = `<p>winner !</p>`;
-
+    gameOver = true;
+    const playerName = document.querySelector(`.playerName-${activePlayer}`);
+    playerName.classList.add("winner-player");
+    // Update only the name's text node so the player-X span (active-player marker) stays intact
+    playerName.firstChild.textContent = "winner !";
+    roll.classList.add("is-disabled");
+    hold.classList.add("is-disabled");
+    roll.setAttribute("aria-disabled", "true");
+    hold.setAttribute("aria-disabled", "true");
+    roll.setAttribute("tabindex", "-1");
+    hold.setAttribute("tabindex", "-1");
   } else {
     // Change player
     changePlayer();
@@ -66,7 +84,17 @@ const replay = function () {
   document.location.reload();
 };
 
-// Listen for click events
-roll.addEventListener("click", rollDice, false);
-hold.addEventListener("click", holdScore, false);
-newGame.addEventListener("click", replay, false);
+// Listen for click and keyboard (Enter/Space) activation, since the buttons are <p> elements
+const bindActivation = function (element, handler) {
+  element.addEventListener("click", handler, false);
+  element.addEventListener("keydown", function (event) {
+    if (event.key === "Enter" || event.key === " " || event.key === "Spacebar") {
+      event.preventDefault();
+      handler();
+    }
+  });
+};
+
+bindActivation(roll, rollDice);
+bindActivation(hold, holdScore);
+bindActivation(newGame, replay);

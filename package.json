@@ -1,0 +1,16 @@
+{
+  "name": "dice-game",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Petit jeu de des a 2 joueurs en vanilla JS/DOM.",
+  "scripts": {
+    "build:css": "sass style.scss style.css --style=expanded --source-map",
+    "watch:css": "sass style.scss style.css --style=expanded --source-map --watch",
+    "lint:css": "stylelint style.css"
+  },
+  "devDependencies": {
+    "sass": "^1.99.0",
+    "stylelint": "^16.9.0",
+    "stylelint-config-standard": "^36.0.1"
+  }
+}
