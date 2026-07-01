@@ -3,6 +3,7 @@
   "rules": {
     "color-function-notation": "legacy",
     "alpha-value-notation": "number",
+    "media-feature-range-notation": "prefix",
     "comment-empty-line-before": null,
     "rule-empty-line-before": null
   }

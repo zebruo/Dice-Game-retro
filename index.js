@@ -51,9 +51,22 @@ const changePlayer = function () {
   player1.classList.toggle("active-player");
 };
 
+// Disable a set of controls (used when the game is over)
+const disableControls = function (elements) {
+  elements.forEach(function (element) {
+    element.classList.add("is-disabled");
+    element.setAttribute("aria-disabled", "true");
+    element.setAttribute("tabindex", "-1");
+  });
+};
+
 // Hol the score
 const holdScore = function () {
   if (gameOver) return;
+
+  // Clear any leftover "bust" message from a previous turn (e.g. holding
+  // without rolling right after the other player lost their turn)
+  message.textContent = "";
 
   // add current score
   scores[activePlayer] += roundScore;
@@ -67,12 +80,7 @@ const holdScore = function () {
     playerName.classList.add("winner-player");
     // Update only the name's text node so the player-X span (active-player marker) stays intact
     playerName.firstChild.textContent = "winner !";
-    roll.classList.add("is-disabled");
-    hold.classList.add("is-disabled");
-    roll.setAttribute("aria-disabled", "true");
-    hold.setAttribute("aria-disabled", "true");
-    roll.setAttribute("tabindex", "-1");
-    hold.setAttribute("tabindex", "-1");
+    disableControls([roll, hold]);
   } else {
     // Change player
     changePlayer();
